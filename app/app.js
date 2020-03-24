@@ -23,44 +23,32 @@ let pregMatchAll = (search, pattern) => {
     else{return false;}
 };
 
-const itemXtype = null;
+
 /* Model */
 const item = (() => {
     let item = {};
         item.id = {};
-        item.id.type = null;
-        item.id.unique = true;  
         item.eventRegistrationDate = null;    
-        item.originDate = null;
-        item.statusId = null;
-        item.typeId = {};
-        item.typeId.type = itemXtype;
-        item.typeId.ref = 'Type';      
-        item.type = null;
-        item.subtypeId = {};
-        item.subtypeId.type = itemXtype;
-        item.subtypeId.ref = 'Subtype';      
+        item.originDate = null;             
+        item.type = '';     
         item.subtype = null;        
-        item.noteForMedia =  null;
-        item.regionId = {};
-        item.regionId.type = itemXtype;
-        item.regionId.ref = 'Region';       
-        item.region = 'Středočeský';
-        item.districtId = {};
-        item.districtId.type = itemXtype;
-        item.districtId.ref = 'District';         
+        item.noteForMedia =  '';
+        item.region = '';        
+        item.regionId = null;       
+        item.district = '';        
         item.districtId = null;       
-        item.village = null;     
-        item.partOfVillage = null;
+        item.village = '';     
+        item.partOfVillage = '';
         item.ORP = null;        
-        item.street = null;       
-        item.road = null;
-        item.detail={};
-        item.detail.detail = null;
+        item.street = '';       
+        item.road = '';
+        item.statusId = null;        
+        item.detail=[];
         return item;
 })();
 
 /* XML reader */
+
 https.get(url , (resp) => {
     let data = '';
     resp.on('data', (chunk) => {
@@ -153,7 +141,7 @@ https.get(url , (resp) => {
                 arr[i]['obec']          = obec;
                 arr[i]['okres']         = okres;
                 arr[i]['title']         = title;
-                arr[i]['link']          = allEvent[i].link[0].trim();
+                //arr[i]['link']          = allEvent[i].link[0].trim();
                 arr[i]['description']   = descript;
                 arr[i]['stopEventDate'] = stopEventDate;
                 arr[i]['pubDate']       = startEventDate;
@@ -164,7 +152,7 @@ https.get(url , (resp) => {
 
             /* [0] == last event */
             var i = 0; 
-            item.id.type = arr[i]['guid']; // or Date.parse(new Date());
+            item.id = {... [Date.parse(new Date())]}; // or arr[i]['guid']; 
             item.eventRegistrationDate = arr[i]['pubDate']; 
             item.type = arr[i]['type'];
             item.subtype = arr[i]['subtype'];
